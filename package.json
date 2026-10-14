@@ -1,9 +1,13 @@
 {
   "name": "forgekit-amg-astro",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "CLI para crear proyectos Astro con React, Tailwind, ESLint y Prettier",
   "bin": {
     "forgekit-amg-astro": "./bin/index.js"
+  },
+  "exports": {
+    "./cli": "./src/cli.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "bin",
@@ -33,5 +37,9 @@
     }
   },
   "packageManager": "pnpm@11.24.0",
-  "type": "module"
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mazagonzalez/forgekit-amg-astro.git"
+  }
 }

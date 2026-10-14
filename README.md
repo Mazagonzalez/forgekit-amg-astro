@@ -5,12 +5,13 @@ CLI para crear proyectos **Astro + React + Tailwind + ESLint + Prettier** con mi
 ## Uso
 
 ```bash
-pnpm dlx forgekit-amg-astro install mi-sitio
-# o
-npx forgekit-amg-astro install mi-sitio
+pnpm create amg-astro mi-sitio
 ```
 
-Te pregunta si vas a usar **TypeScript o JavaScript** y luego instala todo en su última versión.
+También funciona con `npm create amg-astro@latest mi-sitio`, `pnpm dlx forgekit-amg-astro install mi-sitio`
+o instalándolo global (`pnpm add -g forgekit-amg-astro`) y usando `forgekit-amg-astro install mi-sitio`.
+
+Te pregunta el nombre (si no lo pasas) y si vas a usar **TypeScript o JavaScript**, y luego instala todo en su última versión.
 
 | Opción                            | Descripción                                        |
 | --------------------------------- | -------------------------------------------------- |
@@ -48,6 +49,28 @@ Dev: `eslint`, `@eslint/js`, `globals`, `eslint-plugin-astro`, `prettier`, `pret
 - [`templates/astro/ts`](templates/astro/ts) y [`templates/astro/js`](templates/astro/js): lo que cambia según el lenguaje (`tsconfig`/`jsconfig`, `eslint.config.js` y `Layout.astro`).
 - El `.gitignore` se guarda como `_gitignore` porque npm lo elimina al publicar.
 - Las dependencias se cambian en [`src/commands/install.js`](src/commands/install.js).
+
+## Paquetes
+
+- `forgekit-amg-astro` (raíz): la CLI, la lógica y la plantilla.
+- [`create-amg-astro`](packages/create-amg-astro): envoltorio mínimo para `pnpm create amg-astro`. Usa `forgekit-amg-astro` por dentro,
+  así que al cambiar la plantilla solo hace falta publicar `forgekit-amg-astro` (mientras siga en la versión 1.x).
+
+## Publicar
+
+```bash
+pnpm version patch            # o minor / major
+pnpm publish
+git push --follow-tags
+```
+
+`create-amg-astro` solo se vuelve a publicar si cambia su propio código o si `forgekit-amg-astro` pasa a 2.x
+(entonces actualiza la dependencia en `packages/create-amg-astro/package.json`):
+
+```bash
+cd packages/create-amg-astro
+pnpm publish
+```
 
 ## Desarrollo local
 

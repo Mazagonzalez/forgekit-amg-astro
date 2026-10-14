@@ -1,0 +1,32 @@
+{
+  "name": "create-amg-astro",
+  "version": "1.0.0",
+  "description": "pnpm create amg-astro: proyectos Astro con React, Tailwind, ESLint y Prettier",
+  "bin": {
+    "create-amg-astro": "./bin/index.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "dependencies": {
+    "forgekit-amg-astro": "^1.1.0"
+  },
+  "keywords": [
+    "astro",
+    "create",
+    "template",
+    "tailwind",
+    "react"
+  ],
+  "author": "Carlos Maza",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mazagonzalez/forgekit-amg-astro.git",
+    "directory": "packages/create-amg-astro"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "type": "module"
+}
