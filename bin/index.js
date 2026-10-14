@@ -1,35 +1,63 @@
+#!/usr/bin/env node
 import fs from "node:fs";
-import path from "node:path";
+import { install } from "../src/commands/install.js";
 
-export function install(projectName) {
-    const projectPath = path.join(process.cwd(), projectName);
+const pkg = JSON.parse(
+    fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+);
 
-    console.log(`🚀 Creando proyecto: ${projectName}`);
-    console.log(`📁 Ubicación: ${projectPath}`);
+const HELP = `
+forgekit-amg-astro v${pkg.version}
 
-    if (fs.existsSync(projectPath)) {
-        console.log("❌ La carpeta del proyecto ya existe.");
-        process.exit(1);
-    }
+Uso:
+  forgekit-amg-astro install <nombre-proyecto> [opciones]
 
-    fs.mkdirSync(projectPath);
+Opciones:
+  --ts | --js                       Lenguaje (si no lo indicas, te lo pregunta)
+  --pnpm | --npm | --yarn | --bun   Gestor de paquetes a usar (por defecto: el que ejecutó el comando)
+  --no-install                      Solo copia la plantilla, sin instalar dependencias
+  -h, --help                        Muestra esta ayuda
+  -v, --version                     Muestra la versión
 
-    const directories = [
-        "public",
-        "src",
-        "src/assets",
-        "src/components",
-        "src/layouts",
-        "src/lib",
-        "src/pages",
-        "src/styles",
-    ];
+Ejemplos:
+  pnpm dlx forgekit-amg-astro install mi-sitio
+  npx forgekit-amg-astro install mi-sitio --npm
+`;
 
-    for (const directory of directories) {
-        const directoryPath = path.join(projectPath, directory);
+const args = process.argv.slice(2);
+const flags = args.filter((arg) => arg.startsWith("-"));
+const [command, projectName] = args.filter((arg) => !arg.startsWith("-"));
 
-        fs.mkdirSync(directoryPath, { recursive: true });
-    }
-
-    console.log("✅ Estructura creada correctamente.");
+if (flags.includes("-v") || flags.includes("--version")) {
+    console.log(pkg.version);
+    process.exit(0);
 }
+
+if (!command || flags.includes("-h") || flags.includes("--help")) {
+    console.log(HELP);
+    process.exit(0);
+}
+
+if (command !== "install") {
+    console.log(`❌ Comando desconocido: ${command}`);
+    console.log(HELP);
+    process.exit(1);
+}
+
+if (!projectName) {
+    console.log("❌ Falta el nombre del proyecto.");
+    console.log("   Ejemplo: forgekit-amg-astro install mi-sitio");
+    process.exit(1);
+}
+
+const packageManager = ["pnpm", "npm", "yarn", "bun"].find((pm) =>
+    flags.includes(`--${pm}`),
+);
+
+const language = ["ts", "js"].find((lang) => flags.includes(`--${lang}`));
+
+await install(projectName, {
+    packageManager,
+    language,
+    skipInstall: flags.includes("--no-install"),
+});

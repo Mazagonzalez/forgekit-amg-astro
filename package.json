@@ -1,17 +1,30 @@
 {
   "name": "forgekit-amg-astro",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "CLI para crear proyectos Astro con React, Tailwind, ESLint y Prettier",
   "bin": {
     "forgekit-amg-astro": "./bin/index.js"
   },
+  "files": [
+    "bin",
+    "src",
+    "templates"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node bin/index.js install .tmp-test --no-install --ts && node -e \"require('fs').rmSync('.tmp-test',{recursive:true})\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "astro",
+    "template",
+    "cli",
+    "tailwind",
+    "react"
+  ],
+  "author": "Carlos Maza",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
