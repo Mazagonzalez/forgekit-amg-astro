@@ -52,7 +52,8 @@ Dev: `eslint`, `@eslint/js`, `globals`, `eslint-plugin-astro`, `prettier`, `pret
 ## Desarrollo local
 
 ```bash
-pnpm link --global        # deja disponible el comando forgekit-amg-astro
+# deja disponible el comando forgekit-amg-astro (enlazado a esta carpeta)
+pnpm add -g link:C:/Users/DESARROLLO/Desktop/forgekit-amg-astro
 forgekit-amg-astro install prueba
 pnpm test                 # copia la plantilla sin instalar y la borra
 ```
