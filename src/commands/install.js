@@ -41,7 +41,7 @@ export async function install(projectName, options = {}) {
     const projectPath = path.resolve(process.cwd(), projectName);
     const packageManager = options.packageManager ?? detectPackageManager();
 
-    if (fs.existsSync(projectPath) && fs.readdirSync(projectPath).length > 0) {
+    if (!isEmptyDir(projectPath)) {
         console.log(`❌ La carpeta ${projectName} ya existe y no está vacía.`);
         process.exit(1);
     }
@@ -90,6 +90,15 @@ export async function install(projectName, options = {}) {
     }
 
     printNextSteps(projectName, packageManager);
+}
+
+// Una carpeta que solo tiene .git (repo recién creado o clonado) cuenta como vacía.
+function isEmptyDir(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        return true;
+    }
+
+    return fs.readdirSync(dirPath).every((entry) => entry === ".git");
 }
 
 function toPackageName(name) {
